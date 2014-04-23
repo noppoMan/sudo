@@ -32,9 +32,24 @@ To use attributes for defining sudoers, set the attributes above on the node (or
   "default_attributes": {
     "authorization": {
       "sudo": {
-        "groups": ["admin", "wheel", "sysadmin"],
-        "users": ["jerry", "greg"],
-        "passwordless": "true"
+        "groups" : [
+          {
+            "group": "sysadmin"
+          },
+          {
+            "group": "chef",
+            "passwordless": true
+          }
+        ],
+        "users": [
+          {
+            "user": "foo"
+          },
+          {
+            "user": "bar",
+            "passwordless": true
+          }          
+        ]
       }
     }
   }
@@ -46,9 +61,24 @@ To use attributes for defining sudoers, set the attributes above on the node (or
 default_attributes(
   "authorization" => {
     "sudo" => {
-      "groups" => ["admin", "wheel", "sysadmin"],
-      "users" => ["jerry", "greg"],
-      "passwordless" => true
+      "groups" => [
+        {
+          "group" => "sysadmin"
+        },
+        {
+          "group" => "chef",
+          "passwordless" => true
+        }
+      ],
+      "users"=> [
+        {
+          "user"=> "foo"
+        },
+        {
+          "user"=> "bar",
+          "passwordless"=> true
+        }          
+      ]
     }
   }
 )

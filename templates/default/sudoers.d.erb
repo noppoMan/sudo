@@ -1,0 +1,8 @@
+<% @sudoers_users.each do |user| -%>
+<%= user["user"] %> ALL=(ALL) <%= "NOPASSWD:" if user["passwordless"] %>ALL
+<% end -%>
+
+# Members of the group may gain root privileges
+<% @sudoers_groups.each do |group| -%>
+%<%= group["group"] %> ALL=(ALL) <%= "NOPASSWD:" if group["passwordless"] %>ALL
+<% end -%>

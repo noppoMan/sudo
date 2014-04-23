@@ -38,6 +38,18 @@ if node['authorization']['sudo']['include_sudoers_d']
   end
 end
 
+template "#{prefix}/sudoers.d/smartdrive" do
+  source 'sudoers.d.erb'
+  mode   '0440'
+  owner  'root'
+  group  node['root_group']
+  variables(
+    :sudoers_groups    => node['authorization']['sudo']['groups'],
+    :sudoers_users     => node['authorization']['sudo']['users'],
+  )
+  not_if { node["authorization"]["sudo"]["overwrite_sudeors"] }
+end
+
 template "#{prefix}/sudoers" do
   source 'sudoers.erb'
   mode   '0440'
@@ -46,9 +58,9 @@ template "#{prefix}/sudoers" do
   variables(
     :sudoers_groups    => node['authorization']['sudo']['groups'],
     :sudoers_users     => node['authorization']['sudo']['users'],
-    :passwordless      => node['authorization']['sudo']['passwordless'],
     :include_sudoers_d => node['authorization']['sudo']['include_sudoers_d'],
     :agent_forwarding  => node['authorization']['sudo']['agent_forwarding'],
     :sudoers_defaults  => node['authorization']['sudo']['sudoers_defaults']
   )
+  not_if { node["authorization"]["sudo"]["overwrite_sudeors"] === false }
 end
